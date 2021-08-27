@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customerdeployment
+spec:
+  selector:
+    matchLabels:
+      app: customer
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: customer
+    spec:
+      containers:
+      - image: us.icr.io/jakoblumpkin/customer:1.0
+        name: customer
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+      restartPolicy: Always

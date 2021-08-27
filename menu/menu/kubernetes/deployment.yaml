@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menudeployment
+spec:
+  selector:
+    matchLabels:
+      app: menu
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: menu
+    spec:
+      containers:
+      - image: us.icr.io/jakoblumpkin/menu:1.0
+        name: menu
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
