@@ -1,45 +1,51 @@
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import React from 'react';
 import Menuitems from './Menuitems';
-import React, { useState } from 'react';
-import Details from './Details';
+import BookDetails from './BooksDetails';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        menuitems: []
+      menuitems: [],
+      selectedMenu: null
     }
-}
+  }
 
   componentDidMount() {
     fetch('/menu/menuitems')
-    .then(res => res.json())
-    .then(menu => {
+      .then(res => res.json())
+      .then(menu => {
         console.log(menu);
-        this.setState({ menuitems: menu});
-    })
-    .catch((error) => {
+        this.setState({ menuitems: menu });
+      })
+      .catch((error) => {
         console.log("failed to load menu");
         alert(error);
-    })
-}
+      })
+  }
+
+  updateDetails = (menu) => {
+    this.setState({ selectedMenu: menu });
+  }
+
   render() {
-  return (
-    <div className="App">
-      <h1>Menu</h1>
-      <Router>
-        <Switch>
-            <Route exact path="/"><Menuitems Menu={this.state.menuitems}/></Route>
-            <Route exact path="/details/:id" component={(props) => <Details menus={this.state.menuitems} {...props}/>} />
-        </Switch>
-      </Router>
-    </div>
-  );
+    return (
+      <div className="App">
+        <h1>Menu</h1>
+        <ol>
+          {this.state.menuitems.map(
+            (value, index) => {
+              return (
+                <li><Menuitems menu={value} bookClicked={this.updateDetails} index={index} /></li>
+              );
+            }
+          )}
+        </ol>
+        <div> <BookDetails menu={this.state.selectedMenu} /></div>
+      </div>
+    );
   }
 }
 

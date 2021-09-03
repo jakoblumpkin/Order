@@ -1,31 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import './App.css';
+import React from 'react';
 
 class Menuitems extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            menuitems: []
-        }
-    }
-
     render() {
-    return (
-      <div className="App">
-          <ul style={{listStyle: "none"}}>
-          {this.props.Menu.map( (value, index) => {
-              return (
-                <li>Name: {value.name}        
-                    Price: {value.price} 
-                  <Link style={{paddingLeft: "20px"}}
-                  to={"/details/"+ index}>See Details</Link>
-                </li>    
-              );
-          })}
-          </ul>
-      </div>
-    );
+        return (
+            <div style={{ cursor: "pointer" }} className="menuSummary" onClick={() => { this.props.bookClicked(this.props.menu) }}>
+                <b>{this.props.menu.name}</b>
+            </div>
+        );
     }
 }
 
